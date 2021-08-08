@@ -26,4 +26,4 @@ ENV M2_HOME=/apache-maven-${MAVEN_VERSION}/
 
 ENV PATH=$PATH:/apache-maven-${MAVEN_VERSION}/bin
 
-ENTRYPOINT ['java', '-version']
+ENTRYPOINT ["java", "-version"]
