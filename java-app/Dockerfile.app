@@ -4,6 +4,6 @@ ADD . /app
 
 WORKDIR /app
 
-RUN mvn clean package
+RUN mvn clean package && native-image -jar ./target/app*.jar
 
-ENTRYPOINT /bin/sh
+ENTRYPOINT /app/target/app-0.1
