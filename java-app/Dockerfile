@@ -26,6 +26,4 @@ ENV M2_HOME=/apache-maven-${MAVEN_VERSION}/
 
 ENV PATH=$PATH:/apache-maven-${MAVEN_VERSION}/bin
 
-RUN gu install native-image
-
 ENTRYPOINT ["java", "-version"]
