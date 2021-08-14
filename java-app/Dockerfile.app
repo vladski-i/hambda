@@ -1,11 +1,19 @@
-FROM graalvm-java-maven-base AS builder
+FROM graalvm-builder AS builder
 
-ADD . /app
+ARG DEBIAN_FRONTEND=noninteractive
+
+COPY . /app
 
 WORKDIR /app
 
-RUN apt update && apt upgrade && apt install -y gcc build-essential libz-dev zlib1g-dev && \
-    gu install native-image && mvn clean package && \
+RUN mvn clean package && \
     native-image -jar ./target/app*.jar
 
-ENTRYPOINT /bin/bash
+# ENTRYPOINT /bin/sh
+FROM alpine:latest
+
+WORKDIR /
+
+COPY --from=builder /app/target/app-0.1.jar /app
+
+ENTRYPOINT /bin/sh

@@ -8,7 +8,7 @@ ARG MAVEN_VERSION=3.8.1
 
 ARG DEBIAN_FRONTEND=noninteractive
 
-RUN apt update && apt upgrade && apt install -y wget
+RUN apt update && apt upgrade && apt install -y wget gcc build-essential libz-dev zlib1g-dev
 
 RUN wget https://github.com/graalvm/graalvm-ce-builds/releases/download/vm-${GRAALVM_VERSION}/graalvm-ce-java11-linux-${ARCH}-${GRAALVM_VERSION}.tar.gz 
 
@@ -17,6 +17,8 @@ RUN tar -xzvf graalvm-ce-java11-linux-${ARCH}-${GRAALVM_VERSION}.tar.gz
 ENV JAVA_HOME=/graalvm-ce-java11-${GRAALVM_VERSION}
 
 ENV PATH=$PATH:/graalvm-ce-java11-${GRAALVM_VERSION}/bin
+
+RUN gu install native-image
 
 RUN wget https://downloads.apache.org/maven/maven-3/${MAVEN_VERSION}/binaries/apache-maven-${MAVEN_VERSION}-bin.tar.gz
 
