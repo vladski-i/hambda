@@ -10,7 +10,7 @@ RUN mvn clean package && \
     native-image -jar ./target/app*.jar
 
 # ENTRYPOINT /bin/sh
-FROM ubuntu:latest
+FROM debian:buster-slim
 
 WORKDIR /
 
