@@ -10,10 +10,10 @@ RUN mvn clean package && \
     native-image -jar ./target/app*.jar
 
 # ENTRYPOINT /bin/sh
-FROM alpine:latest
+FROM ubuntu:latest
 
 WORKDIR /
 
-COPY --from=builder /app/target/app-0.1.jar /app
+COPY --from=builder /app/app-0.1 /app
 
-ENTRYPOINT /bin/sh
+ENTRYPOINT /app
