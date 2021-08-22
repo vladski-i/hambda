@@ -1,3 +1,4 @@
 config/etc-dnsmasq.d/**
 config/etc-pihole/**
 java-app/target
+dockerman/dockerman-web/__pycache__
