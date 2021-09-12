@@ -16,4 +16,4 @@ WORKDIR /
 
 COPY --from=builder /app/app-0.1 /app
 
-CMD /app
+ENTRYPOINT /app

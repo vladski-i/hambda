@@ -9,7 +9,7 @@ services:
       - "53:53/tcp"
       - "53:53/udp"
       - "67:67/udp"
-      - "80:80/tcp"
+      - "8080:80/tcp"
     environment:
       TZ: 'Europe/Athens'
       WEBPASSWORD: '${PIHOLE_PASSWD}'
@@ -28,14 +28,20 @@ services:
     container_name: nginx
     image: nginx:latest
     ports:
-      - "8080:80"
+      - "80:80"
     environment:
       - NGINX_HOST=pi.home
       - NGINX_PORT=80
     volumes:
-      - './config/etc-nginx/:/etc/nginx/conf.d/'
+      - './config/etc-nginx/:/etc/nginx'
     networks: 
       - vlchp
-
+  mongo:
+    container_name: mongo
+    image: mongo:bionic
+    networks: 
+      - vlchp
+    volumes: 
+      - './mongo:/data/db'
 networks:
   vlchp:

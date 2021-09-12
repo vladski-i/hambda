@@ -1,4 +1,6 @@
 config/etc-dnsmasq.d/**
 config/etc-pihole/**
+config/etc-nginx/*
 java-app/target
 dockerman/dockerman-web/__pycache__
+mongo/**

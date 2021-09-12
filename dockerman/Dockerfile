@@ -2,9 +2,12 @@ FROM debian:buster-slim
 
 ARG DEBIAN_FRONTEND=noninteractive
 
-RUN apt update && apt upgrade && apt install -y python3 docker.io python3-pip && python3 -m pip install Flask && python3 -m pip install docker
+RUN apt update && apt upgrade && apt install -y python3 docker.io python3-pip && \
+    python3 -m pip install Flask docker pymongo crossplane
 
 ADD ./dockerman-web /dockerman-web
+
+# ADD ./templates /templates
 
 ENV FLASK_APP=dockerman-web
 
