@@ -1,4 +1,5 @@
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const MonacoEditorWebpackPlugin = require('monaco-editor-webpack-plugin')
 const path = require('path');
 
 const mode = process.env.NODE_ENV || 'development';
@@ -6,7 +7,12 @@ const prod = mode === 'production';
 
 module.exports = {
 	entry: {
-		'build/bundle': ['./src/main.js']
+		'build/bundle': ['./src/main.js'],
+		'editor.worker': 'monaco-editor/esm/vs/editor/editor.worker.js',
+		'json.worker': 'monaco-editor/esm/vs/language/json/json.worker',
+		'css.worker': 'monaco-editor/esm/vs/language/css/css.worker',
+		'html.worker': 'monaco-editor/esm/vs/language/html/html.worker',
+		'ts.worker': 'monaco-editor/esm/vs/language/typescript/ts.worker'
 	},
 	resolve: {
 		alias: {
@@ -38,7 +44,8 @@ module.exports = {
 			{
 				test: /\.css$/,
 				use: [
-					MiniCssExtractPlugin.loader,
+					// MiniCssExtractPlugin.loader,
+					'style-loader',
 					'css-loader'
 				]
 			},
@@ -48,14 +55,19 @@ module.exports = {
 				resolve: {
 					fullySpecified: false
 				}
+			},
+			{
+				test: /\.ttf$/,
+				use: ['file-loader']
 			}
 		]
 	},
 	mode,
 	plugins: [
-		new MiniCssExtractPlugin({
-			filename: '[name].css'
-		})
+		// new MiniCssExtractPlugin({
+		// 	filename: '[name].css'
+		// }),
+		// new MonacoEditorWebpackPlugin()
 	],
 	devtool: prod ? false : 'source-map',
 	devServer: {

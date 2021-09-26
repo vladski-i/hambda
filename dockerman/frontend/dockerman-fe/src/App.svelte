@@ -1,6 +1,7 @@
 <script>
 	import {onMount} from 'svelte';
 	import { default as Containers } from './Containers.svelte'
+	import { default as Editor} from './Editor.svelte'
 
 	let menu = 'Containers'
 </script>
@@ -9,10 +10,13 @@
 	<h1>Lchp</h1>
 	<ul id = 'menu'>
 		<li><a href='/' on:click|preventDefault={() => (menu = 'Containers')}>Containers</a></li>
+		<li><a href='/' on:click|preventDefault={() => (menu = 'Editor')}>Editor</a></li>
 	</ul>
 	
 	{#if menu == 'Containers'}
 	<Containers/>
+	{:else if menu == 'Editor'}
+	<Editor/>
 	{:else}
 		Not found
 	{/if}
