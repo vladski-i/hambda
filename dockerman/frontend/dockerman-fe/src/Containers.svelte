@@ -61,7 +61,7 @@
         padding: 0.5em;
         border: 1px solid #aa3e00;
         border-radius: 10px;
-        background: #222;
+        background: #20262d;
         transition: border-radius 0.5s step-end;
     }
 

@@ -19,6 +19,18 @@ init_nginx_parser()
 
 clean()
 
+python_flask = {
+    'name' : 'python-flask',
+    'code' : 'def index():\n',
+    'language' : 'python'
+}
+java_micronaut = {
+    'name' : 'java-micronaut',
+    'code' : 'public String hello()\n {\n\treturn "hello";\n}',
+    'language' : 'java'
+}
+templates_list = [python_flask, java_micronaut]
+
 def get_docker_client():
     return docker_client
 
@@ -34,9 +46,13 @@ def containers():
 @app.route("/dockerman/build", methods = ['POST'])
 def build():
     json = request.get_json()
-    result = db.containers.insert_one({ 'name' : json['name'], 'tag' : json['tag'] ,'status' : 'BUILDING', 'endpoint': json['endpoint'] })
+    endpoint = json['endpoint']
+    name = endpoint.replace('/','')
+    tag = endpoint.replace('/','-')[1:]
+    result = db.containers.insert_one({ 'name' : name, 'tag' : tag ,'status' : 'BUILDING', 'endpoint': endpoint })
     path = new_image(str(result.inserted_id))
-    build_image( json['tag'], result.inserted_id, path, json['endpoint'], json['code'])
+    print(f'Code received is: {json["code"]}//end code')
+    build_image( tag, result.inserted_id, path, json['endpoint'], json['code'])
     return {'id' : str(result.inserted_id), 'status' : 'BUILDING'}
 
 @cross_origin
@@ -58,3 +74,8 @@ def status():
     if status == 'FINISHED':
         response['logs'] = result['logs']
     return response
+
+@cross_origin
+@app.route("/dockerman/images/templates", methods = ['GET'])
+def templates():
+    return {'templates': templates_list}

@@ -16,9 +16,11 @@
     "dev": "webpack serve --content-base public"
   },
   "dependencies": {
+    "axios": "^0.21.4",
     "file-loader": "^6.2.0",
     "monaco-editor": "^0.28.1",
     "monaco-editor-webpack-plugin": "^4.2.0",
+    "monaco-languages": "^2.9.0",
     "style-loader": "^3.3.0",
     "svelte-collapsible": "^0.2.1"
   }

@@ -1,11 +1,24 @@
+<script context='module'>
+    let editor = undefined;
+    export function setContext(newCode, newLanguage) {
+        let model = monaco.editor.createModel(newCode)
+        monaco.editor.setModelLanguage(model,newLanguage)
+        editor.setModel(model)
+    }
+    export function getCode() {
+        return editor.getValue()
+    }
+</script>
 <script>
     import 'monaco-editor/esm/vs/editor/browser/controller/coreCommands.js';
     import 'monaco-editor/esm/vs/editor/contrib/find/findController.js';
     import * as monaco from 'monaco-editor/esm/vs/editor/editor.api.js';
     import 'monaco-editor/esm/vs/basic-languages/python/python.contribution.js';
+    import 'monaco-editor/esm/vs/basic-languages/java/java.contribution.js';
 	import {onMount} from 'svelte';
 
     let container;
+    let value = '';
 
     onMount(() => {
         self.MonacoEnvironment = {
@@ -26,25 +39,13 @@
             }
         };
         console.log(container)
-        monaco.editor.create(container, {
-        value: [
-            'from banana import *',
-            '',
-            'class Monkey:',
-            '	# Bananas the monkey can eat.',
-            '	capacity = 10',
-            '	def eat(self, N):',
-            "		'''Make the monkey eat N bananas!'''",
-            '		capacity = capacity - N*banana.size',
-            '',
-            '	def feeding_frenzy(self):',
-            '		eat(9.25)',
-            '		return "Yum yum"'
-        ].join('\n'),
+        monaco.editor.setTheme('vs-dark');
+        editor = monaco.editor.create(container, {
+        value: value,
         language: 'python'
         });
+        editor.setValue('def index():\n');
     });
-
 </script>
 
 <div id="editor-container" bind:this={container} style="height: 500px; text-align: left">

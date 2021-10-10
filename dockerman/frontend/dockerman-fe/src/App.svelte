@@ -1,22 +1,23 @@
 <script>
 	import {onMount} from 'svelte';
 	import { default as Containers } from './Containers.svelte'
-	import { default as Editor} from './Editor.svelte'
+	// import { default as Editor} from './Editor.svelte'
+	import {default as NewContainer} from './NewContainer.svelte';
 
 	let menu = 'Containers'
 </script>
 
 <main>
-	<h1>Lchp</h1>
+	<h1><b>Lchp</b></h1>
 	<ul id = 'menu'>
 		<li><a href='/' on:click|preventDefault={() => (menu = 'Containers')}>Containers</a></li>
-		<li><a href='/' on:click|preventDefault={() => (menu = 'Editor')}>Editor</a></li>
+		<li><a href='/' on:click|preventDefault={() => (menu = 'New Container')}>New Container</a></li>
 	</ul>
 	
 	{#if menu == 'Containers'}
 	<Containers/>
-	{:else if menu == 'Editor'}
-	<Editor/>
+	{:else if menu == 'New Container'}
+	<NewContainer/>
 	{:else}
 		Not found
 	{/if}
@@ -32,7 +33,7 @@
 	}
 
 	h1 {
-		color: #ff3e00;
+		color: #ba000d;
 		text-transform: uppercase;
 		font-size: 2em;
 		font-weight: 100;
