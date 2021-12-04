@@ -1,5 +1,5 @@
 from flask import Flask, request
-from container_delegate import get_containers, build_image, run_container, clean
+from container_delegate import get_containers, build_image, run_container, clean, logs
 from pymongo import MongoClient
 from bson.objectid import ObjectId
 from template_delegate import new_image
@@ -51,8 +51,9 @@ def build():
     tag = endpoint.replace('/','-')[1:]
     result = db.containers.insert_one({ 'name' : name, 'tag' : tag ,'status' : 'BUILDING', 'endpoint': endpoint })
     path = new_image(str(result.inserted_id))
+    code = "\n".join(json["code"].split("\n")[1:])
     print(f'Code received is: {json["code"]}//end code')
-    build_image( tag, result.inserted_id, path, json['endpoint'], json['code'])
+    build_image( tag, result.inserted_id, path, json['endpoint'], code)
     return {'id' : str(result.inserted_id), 'status' : 'BUILDING'}
 
 @cross_origin
@@ -63,9 +64,10 @@ def run():
     return {'logs' : run_container(id)}
 
 @cross_origin
-@app.route("/dockerman/images/status", methods = ['GET'])
+@app.route("/dockerman/images/status", methods = ['POST'])
 def status():
     json = request.get_json()
+    print(f"status called with{json}")
     result = db.containers.find_one({"_id":ObjectId(json['id'])})
     pprint.pprint(result)
     id = str(result['_id'])
@@ -79,3 +81,22 @@ def status():
 @app.route("/dockerman/images/templates", methods = ['GET'])
 def templates():
     return {'templates': templates_list}
+
+@cross_origin
+@app.route("/dockerman/containers/logs", methods = ['POST'])
+def container_logs():
+    json = request.get_json()
+    container_logs = None
+    container_id = None
+    print(json)
+    try:
+        id = json['id']
+        print(f'fetching logs for id {id}')
+        container_id, container_logs = logs(mongo_id = id)
+    except KeyError:
+        container_id = json['container_id']
+        print(f'fetching logs for container id {container_id}')
+        container_id, container_logs = logs(container_id = container_id)
+    if not container_logs:
+        container_logs = ""
+    return {"container_id": container_id, "logs": container_logs}
