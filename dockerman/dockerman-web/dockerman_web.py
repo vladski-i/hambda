@@ -9,6 +9,7 @@ import json
 from nginx_delegate import init_nginx_parser
 from config import get_containers_collection, get_docker_client
 from flask_cors import cross_origin, CORS
+import string
 
 app = Flask(__name__)
 CORS(app)
@@ -49,6 +50,7 @@ def build():
     endpoint = json['endpoint']
     name = endpoint.replace('/','')
     tag = endpoint.replace('/','-')[1:]
+    tag = "c" + "".join(list(filter(lambda x: x in string.printable, tag)))
     result = db.containers.insert_one({ 'name' : name, 'tag' : tag ,'status' : 'BUILDING', 'endpoint': endpoint })
     path = new_image(str(result.inserted_id))
     code = "\n".join(json["code"].split("\n")[1:])

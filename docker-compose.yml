@@ -43,5 +43,20 @@ services:
       - vlchp
     volumes: 
       - './mongo:/data/db'
+  dockerman:
+    container_name: dockerman
+    image: dockerman:latest
+    networks:
+      - vlchp
+    volumes:
+      - './dockerman/templates:/templates'
+      - '/tmp:/tmp'
+      - './config/etc-nginx:/etc/nginx'
+      - '/var/run/docker.sock:/var/run/docker.sock'
+  frontend:
+    container_name: dockerman-fe
+    image: dockerman-fe:latest
+    networks:
+      - vlchp
 networks:
   vlchp:

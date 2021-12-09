@@ -17,7 +17,7 @@
     const axios = require('axios').default
 
     let doPoll = container_id => {
-        axios.post('http://[2a02:a58:8251:100:dea6:32ff:fec4:cb3c]:5000/dockerman/containers/logs', {
+        axios.post('http://192.168.100.43/dockerman/containers/logs', {
             'container_id' : container_id
         })
         .then(resp => {
@@ -47,7 +47,7 @@
     
     onMount(() => {
         if (!container_id){
-            axios.post('http://[2a02:a58:8251:100:dea6:32ff:fec4:cb3c]:5000/dockerman/containers/logs', {
+            axios.post('http://192.168.100.43/dockerman/containers/logs', {
                 'id': mongo_id
             })
             .then(resp => {

@@ -20,7 +20,7 @@
     const intersperse = (arr, sep) => arr.reduce((a,v)=>[...a,v,sep],[]).slice(0,-1);
 
     onMount( () => {
-        axios.get('http://[2a02:a58:8251:100:dea6:32ff:fec4:cb3c]:5000/dockerman/images/templates')
+        axios.get('http://192.168.100.43/dockerman/images/templates')
             .then((resp) => {
                 templates = resp.data.templates
                 console.log(templates)
@@ -34,7 +34,7 @@
         let image_id;
         console.log(code)
         console.log("endpoint is %s",endpoint)
-        let build = async () => axios.post('http://[2a02:a58:8251:100:dea6:32ff:fec4:cb3c]:5000/dockerman/build',{
+        let build = async () => axios.post('http://192.168.100.43/dockerman/build',{
             "endpoint": endpoint,
             "code": code
         })
@@ -60,7 +60,7 @@
             console.log("wrong id [%s]",id)
             clearInterval(poller)
         }
-        axios.post('http://[2a02:a58:8251:100:dea6:32ff:fec4:cb3c]:5000/dockerman/images/status',{
+        axios.post('http://192.168.100.43/dockerman/images/status',{
             "id": id
         }).then((resp => {
             console.log(resp)
@@ -99,7 +99,7 @@
     let submitRun = () => {
         console.log("submitting %s for run", id)
         stage= 'waiting'
-        axios.post('http://[2a02:a58:8251:100:dea6:32ff:fec4:cb3c]:5000/dockerman/run', {
+        axios.post('http://192.168.100.43/dockerman/run', {
             id : id
         }).then((resp) => {
             run_logs = resp.data.logs

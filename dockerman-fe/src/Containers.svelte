@@ -10,7 +10,7 @@
 	let name;
     
 	onMount (async () => {
-		containers = await fetch('http://[2a02:a58:8251:100:dea6:32ff:fec4:cb3c]:5000/dockerman/containers')
+		containers = await fetch('http://192.168.100.43/dockerman/containers')
 			.then(x => x.json())
 		console.log(containers.containers)
 		active_containers = containers.containers
